@@ -709,14 +709,21 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetetection"]
 shape = SubResource("RectangleShape2D_at2eh")
 
-[node name="hurtbox" parent="PlayerDetetection" instance=ExtResource("7_47l07")]
+[node name="hurtbox" parent="." instance=ExtResource("7_47l07")]
 collision_layer = 16
-collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetetection/hurtbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2(-5, 1)
 shape = SubResource("CapsuleShape2D_r0sqy")
 debug_color = Color(0.99662, 0, 0.183111, 0.42)
+
+[node name="hitbox" parent="." instance=ExtResource("15_kwpww")]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(14, -6)
+rotation = 1.55569
+shape = SubResource("CapsuleShape2D_47l07")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -772,13 +779,6 @@ minion_node = ExtResource("13_c0tut")
 
 [node name="Death" type="Node2D" parent="FiniteStateMachine"]
 script = ExtResource("14_c0tut")
-
-[node name="hitbox" parent="." instance=ExtResource("15_kwpww")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
-position = Vector2(14, -6)
-rotation = 1.55569
-shape = SubResource("CapsuleShape2D_47l07")
 
 [connection signal="body_entered" from="PlayerDetetection" to="FiniteStateMachine/Idle" method="_on_player_detetection_body_entered"]
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

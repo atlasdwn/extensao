@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ddix048x6y8aa"]
+[gd_scene load_steps=22 format=3 uid="uid://ddix048x6y8aa"]
 
 [ext_resource type="Script" uid="uid://v2mqxeveyh8w" path="res://scripts/player/player.gd" id="1_6t23p"]
 [ext_resource type="Texture2D" uid="uid://ct2pi63bihqj4" path="res://assets/Knight_player/Idle_KG_1.png" id="1_lj8jo"]
@@ -8,10 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://dndec8cpsmqcx" path="res://assets/Knight_player/Jump_KG_1.png" id="3_ws0vm"]
 [ext_resource type="Texture2D" uid="uid://du6ylojpfbvct" path="res://assets/Knight_player/Attack_KG_1.png" id="5_ws0vm"]
 [ext_resource type="Texture2D" uid="uid://dipsaupge4hjn" path="res://assets/Knight_player/Fall_KG_1.png" id="6_rhr3r"]
+[ext_resource type="PackedScene" uid="uid://dtqvalq8pbxtx" path="res://prefab/hitbox.tscn" id="9_n8jd0"]
+[ext_resource type="PackedScene" uid="uid://d22vyg14c1rvh" path="res://prefab/hurtbox.tscn" id="10_q605b"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6t23p"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eho78"]
 radius = 13.0
-height = 62.0
+height = 60.0
 
 [sub_resource type="Animation" id="Animation_4vejd"]
 length = 0.001
@@ -309,6 +311,10 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n8jd0"]
 size = Vector2(35, 63)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8sqrr"]
+radius = 13.0
+height = 48.0
+
 [node name="player" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_6t23p")
@@ -325,8 +331,8 @@ texture = ExtResource("1_lj8jo")
 hframes = 4
 
 [node name="hitbox_player" type="CollisionShape2D" parent="."]
-position = Vector2(1, -8)
-shape = SubResource("CapsuleShape2D_6t23p")
+position = Vector2(1, -7)
+shape = SubResource("CapsuleShape2D_eho78")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -341,15 +347,23 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[node name="attack_area" type="Area2D" parent="."]
+[node name="hitbox" parent="." instance=ExtResource("9_n8jd0")]
 collision_layer = 8
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 position = Vector2(32.5, -9.5)
 shape = SubResource("RectangleShape2D_n8jd0")
+
+[node name="hurtbox" parent="." instance=ExtResource("10_q605b")]
+collision_layer = 16
+collision_mask = 0
+
+[node name="hitbox_player" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(1, -13)
+shape = SubResource("CapsuleShape2D_8sqrr")
+debug_color = Color(1, 0.0111394, 0.0238584, 0.42)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
-[connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]

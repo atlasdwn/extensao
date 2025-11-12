@@ -128,7 +128,7 @@ func _on_dash_cooldown_timer_timeout() -> void:
 func start_attack() -> void: ########
 	is_attacking = true
 	## COMECANDO A LOGICA DE DETECCAO DA HITBOX DE ATAQUE
-	var overlapping_objects = $attack_area.get_overlapping_areas()
+	var overlapping_objects = $hitbox.get_overlapping_areas()
 	
 	for area in overlapping_objects:
 		var parent = area.get_owner()
