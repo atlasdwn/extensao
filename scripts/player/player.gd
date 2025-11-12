@@ -117,12 +117,12 @@ func start_dash() -> void:
 	dash_timer.start(dash_duration)
 	dash_cooldown_timer.start()
 	
-func _on_DashTimer_timeout() -> void:
+func _on_dash_timer_timeout() -> void:
 	is_dashing = false
 	velocity.x = 0.0 ## AQUI DEFINE QUE DEPOIS DO DASH A VELOCIDADE VAI PRA 0
 	## O QUE TIRA AQUELE BUG DE CONTINUAR ANDANDO (ANIMACAO)DEPOIS DO DASH
 	
-func _on_DashCooldownTimer_timeout() -> void:
+func _on_dash_cooldown_timer_timeout() -> void:
 	can_dash = true
 	
 func start_attack() -> void: ########
@@ -134,11 +134,7 @@ func start_attack() -> void: ########
 		var parent = area.get_parent()
 		print(parent.name)
 	##AGUARDAO FIM DA ANIMAÇÃO DE ATAQUE E TERMINA O ESTADO DE ATAQUE
-	await animation.animation_finished
-	is_attacking = false
 
-
-		
-
-		
-		
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name=="attack":
+		is_attacking = false

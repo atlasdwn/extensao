@@ -9,7 +9,7 @@ func _ready():
 	set_physics_process(true)
 	animation.play("idle")
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 		var direction = player.position - position
 		velocity = direction.normalized() * 100
 		move_and_slide()

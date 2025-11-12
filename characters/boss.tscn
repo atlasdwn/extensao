@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://dcarpt7rnqith"]
+[gd_scene load_steps=80 format=3 uid="uid://dcarpt7rnqith"]
 
 [ext_resource type="Texture2D" uid="uid://5w6t18v2twu4" path="res://assets/Undead executioner puppet/png/attacking.png" id="1_at2eh"]
 [ext_resource type="Script" uid="uid://bj2cw57ifd6uw" path="res://scripts/boss_gd/boss.gd" id="1_ihnfr"]
@@ -11,9 +11,10 @@
 [ext_resource type="Script" uid="uid://dksi28nocuhmb" path="res://scripts/boss_gd/follow.gd" id="9_ihnfr"]
 [ext_resource type="Script" uid="uid://fvly2v17by58" path="res://scripts/boss_gd/attack.gd" id="10_13koa"]
 [ext_resource type="Script" uid="uid://bgfuvevsbh6v8" path="res://scripts/boss_gd/teleport.gd" id="11_rg142"]
-[ext_resource type="Script" uid="uid://ju5iyvj741b7" path="res://scripts/boss_gd/summon.gd" id="12_escqd"]
+[ext_resource type="Script" uid="uid://caeoucnk4tpsb" path="res://scripts/boss_gd/summon.gd" id="12_escqd"]
 [ext_resource type="PackedScene" uid="uid://l7n2jr00xjit" path="res://characters/minion.tscn" id="13_c0tut"]
-[ext_resource type="Script" uid="uid://c10ilhehftwoa" path="res://scripts/boss_gd/death.gd" id="14_c0tut"]
+[ext_resource type="Script" uid="uid://btjom01igx4gg" path="res://scripts/boss_gd/death.gd" id="14_c0tut"]
+[ext_resource type="PackedScene" uid="uid://dtqvalq8pbxtx" path="res://prefab/hitbox.tscn" id="15_kwpww"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ihnfr"]
 atlas = ExtResource("1_at2eh")
@@ -668,10 +669,14 @@ _data = {
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f5bqu"]
 radius = 11.0
-height = 56.0
+height = 58.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_at2eh"]
 size = Vector2(200, 200)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_47l07"]
+radius = 30.9965
+height = 63.9927
 
 [node name="Boss" type="CharacterBody2D"]
 collision_layer = 2
@@ -689,7 +694,7 @@ libraries = {
 }
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="collision" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 5)
 shape = SubResource("CapsuleShape2D_f5bqu")
 
@@ -753,5 +758,12 @@ minion_node = ExtResource("13_c0tut")
 
 [node name="Death" type="Node2D" parent="FiniteStateMachine"]
 script = ExtResource("14_c0tut")
+
+[node name="hitbox" parent="." instance=ExtResource("15_kwpww")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(14, -6)
+rotation = 1.55569
+shape = SubResource("CapsuleShape2D_47l07")
 
 [connection signal="body_entered" from="PlayerDetetection" to="FiniteStateMachine/Idle" method="_on_player_detetection_body_entered"]

@@ -11,7 +11,7 @@ var player_entered: bool = false:
 		progress_bar.set_deferred("visible", value)
 
 
-func _on_player_detetection_body_entered(body):
+func _on_player_detetection_body_entered(_body):
 	player_entered = true
 	
 func transition():
