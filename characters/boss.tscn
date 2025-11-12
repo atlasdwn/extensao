@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://dcarpt7rnqith"]
+[gd_scene load_steps=82 format=3 uid="uid://dcarpt7rnqith"]
 
 [ext_resource type="Texture2D" uid="uid://5w6t18v2twu4" path="res://assets/Undead executioner puppet/png/attacking.png" id="1_at2eh"]
 [ext_resource type="Script" uid="uid://bj2cw57ifd6uw" path="res://scripts/boss_gd/boss.gd" id="1_ihnfr"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bfewm7m83ervf" path="res://assets/Undead executioner puppet/png/skill1.png" id="5_1kamv"]
 [ext_resource type="Script" uid="uid://xew6i3ow10bq" path="res://scripts/finite_state_machine.gd" id="6_1vriw"]
 [ext_resource type="Script" uid="uid://dmsew15nlbsbm" path="res://scripts/boss_gd/idle.gd" id="7_1kamv"]
+[ext_resource type="PackedScene" uid="uid://d22vyg14c1rvh" path="res://prefab/hurtbox.tscn" id="7_47l07"]
 [ext_resource type="Script" uid="uid://dksi28nocuhmb" path="res://scripts/boss_gd/follow.gd" id="9_ihnfr"]
 [ext_resource type="Script" uid="uid://fvly2v17by58" path="res://scripts/boss_gd/attack.gd" id="10_13koa"]
 [ext_resource type="Script" uid="uid://bgfuvevsbh6v8" path="res://scripts/boss_gd/teleport.gd" id="11_rg142"]
@@ -674,6 +675,10 @@ height = 58.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_at2eh"]
 size = Vector2(200, 200)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r0sqy"]
+radius = 9.0
+height = 40.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_47l07"]
 radius = 30.9965
 height = 63.9927
@@ -703,6 +708,15 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetetection"]
 shape = SubResource("RectangleShape2D_at2eh")
+
+[node name="hurtbox" parent="PlayerDetetection" instance=ExtResource("7_47l07")]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetetection/hurtbox"]
+position = Vector2(-5, 1)
+shape = SubResource("CapsuleShape2D_r0sqy")
+debug_color = Color(0.99662, 0, 0.183111, 0.42)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -767,3 +781,4 @@ rotation = 1.55569
 shape = SubResource("CapsuleShape2D_47l07")
 
 [connection signal="body_entered" from="PlayerDetetection" to="FiniteStateMachine/Idle" method="_on_player_detetection_body_entered"]
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

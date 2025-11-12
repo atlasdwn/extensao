@@ -131,9 +131,8 @@ func start_attack() -> void: ########
 	var overlapping_objects = $attack_area.get_overlapping_areas()
 	
 	for area in overlapping_objects:
-		var parent = area.get_parent()
+		var parent = area.get_owner()
 		print(parent.name)
-	##AGUARDAO FIM DA ANIMAÇÃO DE ATAQUE E TERMINA O ESTADO DE ATAQUE
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name=="attack":
