@@ -12,9 +12,9 @@
 [ext_resource type="Script" uid="uid://dksi28nocuhmb" path="res://scripts/boss_gd/follow.gd" id="9_ihnfr"]
 [ext_resource type="Script" uid="uid://fvly2v17by58" path="res://scripts/boss_gd/attack.gd" id="10_13koa"]
 [ext_resource type="Script" uid="uid://bgfuvevsbh6v8" path="res://scripts/boss_gd/teleport.gd" id="11_rg142"]
-[ext_resource type="Script" uid="uid://caeoucnk4tpsb" path="res://scripts/boss_gd/summon.gd" id="12_escqd"]
+[ext_resource type="Script" uid="uid://ju5iyvj741b7" path="res://scripts/boss_gd/summon.gd" id="12_escqd"]
 [ext_resource type="PackedScene" uid="uid://l7n2jr00xjit" path="res://characters/minion.tscn" id="13_c0tut"]
-[ext_resource type="Script" uid="uid://btjom01igx4gg" path="res://scripts/boss_gd/death.gd" id="14_c0tut"]
+[ext_resource type="Script" uid="uid://c10ilhehftwoa" path="res://scripts/boss_gd/death.gd" id="14_c0tut"]
 [ext_resource type="PackedScene" uid="uid://dtqvalq8pbxtx" path="res://prefab/hitbox.tscn" id="15_kwpww"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ihnfr"]
@@ -685,7 +685,6 @@ height = 63.9927
 
 [node name="Boss" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 0
 script = ExtResource("1_ihnfr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -704,13 +703,14 @@ position = Vector2(-5, 5)
 shape = SubResource("CapsuleShape2D_f5bqu")
 
 [node name="PlayerDetetection" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetetection"]
 shape = SubResource("RectangleShape2D_at2eh")
 
 [node name="hurtbox" parent="." instance=ExtResource("7_47l07")]
 collision_layer = 16
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2(-5, 1)
@@ -728,6 +728,7 @@ shape = SubResource("CapsuleShape2D_47l07")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="ProgressBar" type="ProgressBar" parent="UI"]
+visible = false
 custom_minimum_size = Vector2(200, 0)
 anchors_preset = 7
 anchor_left = 0.5
@@ -757,6 +758,7 @@ offset_top = -46.0
 offset_right = 18.0
 offset_bottom = -23.0
 text = "debug"
+metadata/_edit_use_anchors_ = true
 
 [node name="FiniteStateMachine" type="Node2D" parent="."]
 script = ExtResource("6_1vriw")

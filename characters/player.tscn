@@ -313,17 +313,11 @@ size = Vector2(35, 63)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8sqrr"]
 radius = 13.0
-height = 48.0
+height = 58.0
 
 [node name="player" type="CharacterBody2D"]
-collision_mask = 2
+collision_mask = 14
 script = ExtResource("1_6t23p")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(1, 0)
-enabled = false
-zoom = Vector2(1.7, 1.7)
-limit_smoothed = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, -9)
@@ -351,18 +345,20 @@ one_shot = true
 collision_layer = 8
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+[node name="collision" type="CollisionShape2D" parent="hitbox"]
 position = Vector2(32.5, -9.5)
 shape = SubResource("RectangleShape2D_n8jd0")
 
 [node name="hurtbox" parent="." instance=ExtResource("10_q605b")]
 collision_layer = 16
-collision_mask = 0
+collision_mask = 10
 
-[node name="hitbox_player" type="CollisionShape2D" parent="hurtbox"]
-position = Vector2(1, -13)
+[node name="collision" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(1, -8)
 shape = SubResource("CapsuleShape2D_8sqrr")
 debug_color = Color(1, 0.0111394, 0.0238584, 0.42)
+
+[node name="remote" type="RemoteTransform2D" parent="."]
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

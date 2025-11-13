@@ -19,6 +19,7 @@ const gravity = 1200.0
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
+@onready var remote: RemoteTransform2D = $remote
 
 
 ## CONDICOES
@@ -26,6 +27,10 @@ var is_attacking: bool = false
 var is_dashing: bool = false
 var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
+
+func follow_camera(camera):
+	var camera_path=camera.get_path()
+	remote.remote_path=camera_path
 
 		
 ## FUNCAO DA GRAVIDADE, SE NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
