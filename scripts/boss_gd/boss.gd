@@ -23,7 +23,7 @@ var original_hurtbox_offset
 func _ready():
 	set_physics_process(false)
 	original_collision_offset = collision.position.x
-	original_hurtbox_offset = hurtbox_collision.position.x
+	original_hurtbox_offset = hurtbox.position.x
 	
 func _process(_delta):
 	direction = player.position - position
@@ -31,11 +31,11 @@ func _process(_delta):
 	if direction.x < 0:
 		animated_sprite.flip_h = true
 		collision.position.x = -original_collision_offset
-		hurtbox_collision.position.x = -original_hurtbox_offset
+		hurtbox.position.x = -original_hurtbox_offset
 	else:
 		animated_sprite.flip_h = false
 		collision.position.x = original_hurtbox_offset
-		hurtbox_collision.position.x = original_hurtbox_offset
+		hurtbox.position.x = original_hurtbox_offset
 
 func _physics_process(delta: float):
 	velocity = direction.normalized() * 80
