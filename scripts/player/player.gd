@@ -20,6 +20,7 @@ const gravity = 1200.0
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var remote: RemoteTransform2D = $remote
+@onready var hitbox: Area2D = $Sprite2D/hitbox
 
 
 ## CONDICOES
@@ -41,7 +42,6 @@ func _physics_process(delta: float) -> void:
 		
 	handle_input(delta)
 	move_and_slide()
-	flip()
 	animate()
 	
 ## O NOME JA DIZ HANDLE INPUT, EH PRA LIDAR COM AS ENTRADAS DO JOGADOR
@@ -57,6 +57,11 @@ func handle_input(delta: float) -> void:
 		velocity.y = jump_velocity
 		
 	var input_direction := Input.get_axis("ui_left", "ui_right")
+	if input_direction:
+		sprite.scale.x = input_direction
+		
+	elif input_direction:
+		sprite.scale.x = input_direction
 	#velocity.x = input_direction * speed
 	
 	##logica de aceleracao e desaceleracao pra mais fluidez dosmovimentos
@@ -98,11 +103,7 @@ func animate() -> void:
 		if animation.current_animation != "idle":
 			animation.play("idle")
 			
-func flip() -> void:
-	if velocity.x > 0:
-		sprite.flip_h = false
-	elif velocity.x < 0:
-		sprite.flip_h = true
+
 		
 ## FUNCAO DE DASH
 func start_dash() -> void:

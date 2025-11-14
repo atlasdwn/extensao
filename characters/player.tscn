@@ -4,12 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://ct2pi63bihqj4" path="res://assets/Knight_player/Idle_KG_1.png" id="1_lj8jo"]
 [ext_resource type="Texture2D" uid="uid://ks5umk5m0wyu" path="res://assets/Knight_player/Dashing_KG_1.png" id="2_rhr3r"]
 [ext_resource type="Texture2D" uid="uid://dhdq8nmwsgn7j" path="res://assets/Knight_player/Idle_KG_2.png" id="2_ws0vm"]
+[ext_resource type="Script" uid="uid://dg5e5vm1i4kda" path="res://scripts/hitbox.gd" id="3_q605b"]
 [ext_resource type="Texture2D" uid="uid://4gvs0nad5lkr" path="res://assets/Knight_player/Walking_KG_1.png" id="3_rhr3r"]
 [ext_resource type="Texture2D" uid="uid://dndec8cpsmqcx" path="res://assets/Knight_player/Jump_KG_1.png" id="3_ws0vm"]
 [ext_resource type="Texture2D" uid="uid://du6ylojpfbvct" path="res://assets/Knight_player/Attack_KG_1.png" id="5_ws0vm"]
 [ext_resource type="Texture2D" uid="uid://dipsaupge4hjn" path="res://assets/Knight_player/Fall_KG_1.png" id="6_rhr3r"]
-[ext_resource type="PackedScene" uid="uid://dtqvalq8pbxtx" path="res://prefab/hitbox.tscn" id="9_n8jd0"]
-[ext_resource type="PackedScene" uid="uid://d22vyg14c1rvh" path="res://prefab/hurtbox.tscn" id="10_q605b"]
+[ext_resource type="Script" uid="uid://b685uwhn6x711" path="res://scripts/hurtbox.gd" id="10_eho78"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n8jd0"]
+size = Vector2(35, 63)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eho78"]
 radius = 13.0
@@ -308,9 +311,6 @@ _data = {
 &"run": SubResource("Animation_t53lx")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n8jd0"]
-size = Vector2(35, 63)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8sqrr"]
 radius = 13.0
 height = 58.0
@@ -323,6 +323,15 @@ script = ExtResource("1_6t23p")
 position = Vector2(1, -9)
 texture = ExtResource("1_lj8jo")
 hframes = 4
+
+[node name="hitbox" type="Area2D" parent="Sprite2D"]
+position = Vector2(31.5, -0.5)
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("3_q605b")
+
+[node name="collision" type="CollisionShape2D" parent="Sprite2D/hitbox"]
+shape = SubResource("RectangleShape2D_n8jd0")
 
 [node name="hitbox_player" type="CollisionShape2D" parent="."]
 position = Vector2(1, -7)
@@ -341,17 +350,10 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[node name="hitbox" parent="." instance=ExtResource("9_n8jd0")]
-collision_layer = 8
-collision_mask = 16
-
-[node name="collision" type="CollisionShape2D" parent="hitbox"]
-position = Vector2(32.5, -9.5)
-shape = SubResource("RectangleShape2D_n8jd0")
-
-[node name="hurtbox" parent="." instance=ExtResource("10_q605b")]
+[node name="hurtbox" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 10
+script = ExtResource("10_eho78")
 
 [node name="collision" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2(1, -8)
