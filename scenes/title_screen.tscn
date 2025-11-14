@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://btw0vm3mkmaag"]
+
+[ext_resource type="Shader" uid="uid://b2jry1lhna1m7" path="res://assets/main_menu/Layers/scroll_clouds.gdshader" id="1_dc4i4"]
+[ext_resource type="Texture2D" uid="uid://5wh557jky2rl" path="res://assets/main_menu/Layers/sky.png" id="1_sa3yf"]
+[ext_resource type="Texture2D" uid="uid://bygvlxjbhkltw" path="res://assets/main_menu/Layers/clouds_mg_3.png" id="2_cs5ya"]
+[ext_resource type="Shader" uid="uid://dck7knwofu6oq" path="res://assets/main_menu/Layers/scroll_mountain.gdshader" id="2_mgrm8"]
+[ext_resource type="Texture2D" uid="uid://d0c68p2m654xq" path="res://assets/main_menu/Layers/glacial_mountains.png" id="2_s4lrb"]
+[ext_resource type="Texture2D" uid="uid://btlm00xbo4q1b" path="res://assets/main_menu/Layers/cloud_lonely.png" id="5_e54dn"]
+[ext_resource type="Shader" uid="uid://etd1incrfl6q" path="res://assets/main_menu/Layers/scroll_clouds_down.gdshader" id="6_3yumr"]
+[ext_resource type="Texture2D" uid="uid://bpu3cjaiqlahj" path="res://assets/main_menu/Layers/clouds_mg_2.png" id="7_cs5ya"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dc4i4"]
+shader = ExtResource("2_mgrm8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e54dn"]
+shader = ExtResource("1_dc4i4")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mykxm"]
+shader = ExtResource("6_3yumr")
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg-sky" type="TextureRect" parent="."]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_sa3yf")
+
+[node name="cloudbehind" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = -5.0
+offset_top = -251.0
+offset_right = 1147.0
+offset_bottom = 397.0
+texture = ExtResource("2_cs5ya")
+
+[node name="mountains" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_dc4i4")
+layout_mode = 2
+offset_left = -3.0
+offset_top = -1.0
+offset_right = 1149.0
+offset_bottom = 647.0
+texture = ExtResource("2_s4lrb")
+
+[node name="cloudlonely" type="TextureRect" parent="."]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_e54dn")
+layout_mode = 2
+offset_top = 4.0
+offset_right = 1152.0
+offset_bottom = 652.0
+texture = ExtResource("5_e54dn")
+
+[node name="clouddown" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_mykxm")
+layout_mode = 2
+offset_top = 15.0
+offset_right = 1152.0
+offset_bottom = 663.0
+texture = ExtResource("7_cs5ya")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ronin" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
