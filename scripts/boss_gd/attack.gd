@@ -1,6 +1,7 @@
 extends State
 
 var can_transition: bool = false
+@onready var hitbox: Area2D = $"../../hitbox"
 
 func enter():
 	super.enter()
@@ -8,6 +9,13 @@ func enter():
 
 func attack(move = "1"):
 	animation_player.play("attack" + move)
+	var overlapping_objects = hitbox.get_overlapping_areas()
+	
+	for area in overlapping_objects:
+		var parent = area.get_owner()
+		if parent.name=="player":
+			print(parent.name,move)
+			
 	await animation_player.animation_finished
 	
 	combo()
@@ -21,3 +29,4 @@ func transition():
 
 	if owner.direction.length() > 150:
 		get_parent().change_state("Follow")
+		

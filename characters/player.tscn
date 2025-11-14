@@ -18,6 +18,10 @@ size = Vector2(35, 63)
 radius = 13.0
 height = 60.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8sqrr"]
+radius = 13.0
+height = 58.0
+
 [sub_resource type="Animation" id="Animation_4vejd"]
 length = 0.001
 tracks/0/type = "value"
@@ -311,12 +315,8 @@ _data = {
 &"run": SubResource("Animation_t53lx")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8sqrr"]
-radius = 13.0
-height = 58.0
-
 [node name="player" type="CharacterBody2D"]
-collision_mask = 14
+collision_mask = 0
 script = ExtResource("1_6t23p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -337,6 +337,16 @@ shape = SubResource("RectangleShape2D_n8jd0")
 position = Vector2(1, -7)
 shape = SubResource("CapsuleShape2D_eho78")
 
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 10
+script = ExtResource("10_eho78")
+
+[node name="collision" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(1, -8)
+shape = SubResource("CapsuleShape2D_8sqrr")
+debug_color = Color(1, 0.0111394, 0.0238584, 0.42)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_ws0vm")
@@ -349,16 +359,6 @@ one_shot = true
 [node name="DashCooldownTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
-
-[node name="hurtbox" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 10
-script = ExtResource("10_eho78")
-
-[node name="collision" type="CollisionShape2D" parent="hurtbox"]
-position = Vector2(1, -8)
-shape = SubResource("CapsuleShape2D_8sqrr")
-debug_color = Color(1, 0.0111394, 0.0238584, 0.42)
 
 [node name="remote" type="RemoteTransform2D" parent="."]
 

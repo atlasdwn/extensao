@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bnxieljixy2f2" path="res://assets/Undead executioner puppet/png/summonAppear.png" id="2_bvdqh"]
 [ext_resource type="Texture2D" uid="uid://cqe7mkacid5x6" path="res://assets/Undead executioner puppet/png/summonIdle.png" id="3_gur66"]
 [ext_resource type="Texture2D" uid="uid://2d078egfn0ko" path="res://assets/Undead executioner puppet/png/summonDeath.png" id="3_not1o"]
-[ext_resource type="PackedScene" uid="uid://d22vyg14c1rvh" path="res://prefab/hurtbox.tscn" id="5_gur66"]
+[ext_resource type="Script" uid="uid://b685uwhn6x711" path="res://scripts/hurtbox.gd" id="5_gur66"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3qri5"]
 atlas = ExtResource("2_bvdqh")
@@ -167,7 +167,8 @@ shape = SubResource("CapsuleShape2D_3qri5")
 
 [node name="MinionAttack" type="Node2D" parent="FiniteStateMachine"]
 
-[node name="hurtbox" parent="." instance=ExtResource("5_gur66")]
+[node name="hurtbox" type="Area2D" parent="."]
+script = ExtResource("5_gur66")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2(-0.87241, 4.07125)

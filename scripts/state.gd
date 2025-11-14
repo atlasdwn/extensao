@@ -10,7 +10,6 @@ func _ready():
  
 func enter():
 	set_physics_process(true)
- 
 func exit():
 	set_physics_process(false)
  

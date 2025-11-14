@@ -7,7 +7,6 @@ extends State
 var player_entered: bool = false:
 	set(value):
 		player_entered = value
-
 		progress_bar.set_deferred("visible", value)
 
 
