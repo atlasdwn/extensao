@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgr22tivnvoba"
-path="res://.godot/imported/clouds_bg.png-6a8223aa33006db5e69ef03a7dbb1ecc.ctex"
+uid="uid://duaigic0fst2y"
+path="res://.godot/imported/sword.png-22b79f4b039f861315e552b5d21779f8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/main_menu/Layers/clouds_bg.png"
-dest_files=["res://.godot/imported/clouds_bg.png-6a8223aa33006db5e69ef03a7dbb1ecc.ctex"]
+source_file="res://assets/main_menu/Layers/sword.png"
+dest_files=["res://.godot/imported/sword.png-22b79f4b039f861315e552b5d21779f8.ctex"]
 
 [params]
 
