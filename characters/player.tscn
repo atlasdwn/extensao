@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://ddix048x6y8aa"]
+[gd_scene load_steps=23 format=3 uid="uid://ddix048x6y8aa"]
 
 [ext_resource type="Script" uid="uid://v2mqxeveyh8w" path="res://scripts/player/player.gd" id="1_6t23p"]
 [ext_resource type="Texture2D" uid="uid://ct2pi63bihqj4" path="res://assets/Knight_player/Idle_KG_1.png" id="1_lj8jo"]
@@ -304,6 +304,9 @@ tracks/2/keys = {
 "values": [0, 1, 2, 3]
 }
 
+[sub_resource type="Animation" id="Animation_q605b"]
+resource_name = "new_animation"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ws0vm"]
 _data = {
 &"RESET": SubResource("Animation_4vejd"),
@@ -312,11 +315,12 @@ _data = {
 &"fall": SubResource("Animation_mfdas"),
 &"idle": SubResource("Animation_dn4c7"),
 &"jump": SubResource("Animation_cibgq"),
+&"new_animation": SubResource("Animation_q605b"),
 &"run": SubResource("Animation_t53lx")
 }
 
 [node name="player" type="CharacterBody2D"]
-collision_mask = 0
+collision_mask = 10
 script = ExtResource("1_6t23p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

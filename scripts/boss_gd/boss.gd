@@ -10,13 +10,12 @@ extends CharacterBody2D
 
 var direction : Vector2
 
-var health:= 10:
-	set (value):
-		health = value
-		progress_bar.value=value
-		if value <= 0:
-			progress_bar.visible = false
-			find_child("FiniteStateMachine").change_state("Death")
+@export var health:= 200
+	
+func take_damage(damage: int):	
+	health -= damage
+	if health <= 0:
+		find_child("FiniteStateMachine").change_state("Death")
 
 var original_collision_offset
 var original_hurtbox_offset
@@ -46,6 +45,3 @@ func _physics_process(delta: float):
 	velocity = direction.normalized() * 80
 	move_and_collide(velocity * delta)
 	
-
-func take_damage():
-	health -= 2
