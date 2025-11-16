@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://ceh6pbcx6dakp"]
+[gd_scene load_steps=56 format=4 uid="uid://ceh6pbcx6dakp"]
 
 [ext_resource type="Texture2D" uid="uid://b5ptnupftsftd" path="res://mundo/assets/Winter Forest/Background 1.png" id="1_ivyh6"]
 [ext_resource type="Texture2D" uid="uid://bwpducubb2iw" path="res://mundo/assets/Winter Forest/Background 5.png" id="1_lg0ut"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://0qp5hinx7ne6" path="res://mundo/Scenes/MovingPlatform/MovingPlatform.tscn" id="10_jv4us"]
 [ext_resource type="Texture2D" uid="uid://bk14kxupyg32b" path="res://mundo/assets/PNG_Japan/Tower.png" id="10_ntsuk"]
 [ext_resource type="PackedScene" uid="uid://ddix048x6y8aa" path="res://characters/player.tscn" id="13_lwauc"]
+[ext_resource type="PackedScene" uid="uid://b5vi4x0d2v3ge" path="res://scenes/killzone.tscn" id="14_fpumr"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_vn82d"]
 tile_data = PackedInt32Array(0, 524288, 0, 65536, 524288, 1, 131072, 524288, 2, 196608, 524288, 3, 1, 589824, 0, 65537, 589824, 1, 131073, 589824, 2, 196609, 589824, 3, 2, 655360, 0, 65538, 655360, 1, 131074, 655360, 2, 196610, 655360, 3)
@@ -2763,6 +2764,9 @@ turbulence_enabled = true
 turbulence_influence_min = 0.02
 turbulence_influence_max = 0.08
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpumr"]
+size = Vector2(15474, 20)
+
 [node name="LevelBase" type="Node2D"]
 metadata/_edit_vertical_guides_ = [4043.0, 1492.0, 4066.0, 7322.0]
 metadata/_edit_horizontal_guides_ = [-1210.0]
@@ -2860,3 +2864,16 @@ script = ExtResource("10_8uhtb")
 
 [node name="player" parent="." instance=ExtResource("13_lwauc")]
 position = Vector2(67, -113)
+
+[node name="Camera2D2" type="Camera2D" parent="player"]
+zoom = Vector2(1.5, 1.5)
+limit_left = -500
+limit_bottom = 0
+limit_smoothed = true
+
+[node name="killzone" parent="." instance=ExtResource("14_fpumr")]
+position = Vector2(5, 167)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="killzone"]
+position = Vector2(7622, 0)
+shape = SubResource("RectangleShape2D_fpumr")

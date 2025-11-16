@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5vi4x0d2v3ge"]
+
+[ext_resource type="Script" uid="uid://wb0q3rg4agnx" path="res://scripts/killzone.gd" id="1_xlapc"]
+
+[node name="killzone" type="Area2D"]
+position = Vector2(-1, -2)
+script = ExtResource("1_xlapc")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
