@@ -4,10 +4,10 @@ extends CharacterBody2D
 
 
 ## DEFININDO OS VALORES DE MOVIMENTACAO
-const speed: float = 300.0
-const jump_velocity = -500.0
-const dash_speed = 900.0
-const dash_duration = 0.2
+const speed: float = 240.0
+const jump_velocity = -400.0
+const dash_speed = 500.0
+const dash_duration = 0.3
 const gravity = 1200.0
 
 ## VALORES PRA FLUIDEZ DE MOVIMENTACAO
