@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ddix048x6y8aa" path="res://characters/player.tscn" id="2_yqjtg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yqjtg"]
-size = Vector2(451.05402, 20)
+size = Vector2(451.054, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lnu2h"]
 size = Vector2(200, 20)
@@ -30,7 +30,7 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(539.25885, 359.57596)
+position = Vector2(539.259, 359.576)
 scale = Vector2(2.33773, -0.519358)
 shape = SubResource("RectangleShape2D_yqjtg")
 
@@ -40,7 +40,7 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(697.9768, 294.72385)
+position = Vector2(697.977, 294.724)
 shape = SubResource("RectangleShape2D_lnu2h")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
@@ -49,7 +49,7 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
-position = Vector2(999.15857, 237.57701)
+position = Vector2(999.159, 237.577)
 scale = Vector2(2.33773, -0.519358)
 shape = SubResource("RectangleShape2D_lbhrr")
 

@@ -263,6 +263,9 @@ tracks/2/keys = {
 "values": [0, 1, 2, 3, 4, 5]
 }
 
+[sub_resource type="Animation" id="Animation_q605b"]
+resource_name = "new_animation"
+
 [sub_resource type="Animation" id="Animation_t53lx"]
 resource_name = "run"
 length = 0.265
@@ -304,9 +307,6 @@ tracks/2/keys = {
 "values": [0, 1, 2, 3]
 }
 
-[sub_resource type="Animation" id="Animation_q605b"]
-resource_name = "new_animation"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ws0vm"]
 _data = {
 &"RESET": SubResource("Animation_4vejd"),
@@ -320,7 +320,7 @@ _data = {
 }
 
 [node name="player" type="CharacterBody2D"]
-collision_mask = 10
+collision_mask = 11
 script = ExtResource("1_6t23p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -365,6 +365,8 @@ wait_time = 0.5
 one_shot = true
 
 [node name="remote" type="RemoteTransform2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

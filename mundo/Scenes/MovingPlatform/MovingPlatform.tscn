@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://0qp5hinx7ne6"]
+
+[ext_resource type="Script" uid="uid://clh3u11axfgnr" path="res://Scenes/MovingPlatform/MovingPlatform.gd" id="1_8blg4"]
+[ext_resource type="Texture2D" uid="uid://u8amjplr6hvp" path="res://assets/Winter Forest/Enviroment.png" id="1_fvlou"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvlou"]
+size = Vector2(77, 14)
+
+[node name="MovingPlatform" type="PathFollow2D"]
+rotates = false
+script = ExtResource("1_8blg4")
+move_speed = 100.0
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+collision_mask = 0
+sync_to_physics = false
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
+texture = ExtResource("1_fvlou")
+region_enabled = true
+region_rect = Rect2(9.885105, 28.999336, 75.83937, 13.956551)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_fvlou")
+one_way_collision = true

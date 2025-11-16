@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://cfmpdvd2x1j14"]
+
+[ext_resource type="PackedScene" uid="uid://btc4ap4gh4hvm" path="res://Scenes/EnemyBase/EnemyBase.tscn" id="1_bmpsp"]
+[ext_resource type="Script" uid="uid://ouqr5im57d81" path="res://Scenes/Enemies/Eagle.gd" id="2_grwlx"]
+[ext_resource type="Texture2D" uid="uid://c8bq1chplrwq7" path="res://assets/fox_antics/assets/enemies/eagle/eagle-attack.png" id="2_ndn0f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bmpsp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_grwlx"]
+atlas = ExtResource("2_ndn0f")
+region = Rect2(0, 0, 40, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4hd3"]
+atlas = ExtResource("2_ndn0f")
+region = Rect2(40, 0, 40, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ia7dr"]
+atlas = ExtResource("2_ndn0f")
+region = Rect2(80, 0, 40, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_057u3"]
+atlas = ExtResource("2_ndn0f")
+region = Rect2(120, 0, 40, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s5t8c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_grwlx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4hd3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ia7dr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_057u3")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ndn0f"]
+radius = 19.94
+
+[node name="Eagle" instance=ExtResource("1_bmpsp")]
+collision_mask = 0
+script = ExtResource("2_grwlx")
+fly_speed = Vector2(35, 15)
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_bmpsp")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_s5t8c")
+animation = &"fly"
+autoplay = "fly"
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+shape = SubResource("CircleShape2D_ndn0f")
+
+[node name="PlayerDetector" type="RayCast2D" parent="." index="4"]
+target_position = Vector2(0, 300)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="DirectionTimer" type="Timer" parent="." index="5"]
+wait_time = 3.0
+
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
