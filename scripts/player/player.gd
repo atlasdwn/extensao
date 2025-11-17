@@ -28,12 +28,15 @@ var is_attacking: bool = false
 var is_dashing: bool = false
 var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
+var health = 50
 
 func follow_camera(camera):
 	var camera_path=camera.get_path()
 	remote.remote_path=camera_path
-
-		
+	
+func take_damage(damage):
+	health -= damage
+			
 ## FUNCAO DA GRAVIDADE, SE NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
 func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:
@@ -42,7 +45,7 @@ func _physics_process(delta: float) -> void:
 		
 	handle_input(delta)
 	move_and_slide()
-
+	animate()
 	
 ## O NOME JA DIZ HANDLE INPUT, EH PRA LIDAR COM AS ENTRADAS DO JOGADOR
 func handle_input(delta: float) -> void:
@@ -69,7 +72,6 @@ func handle_input(delta: float) -> void:
 	
 	if input_direction != 0:
 		velocity.x = lerp(velocity.x, target_speed, acceleration * delta)
-		animate()
 	else:
 		velocity.x = lerp(velocity.x , 0.0, desaceleration * delta)
 	######
@@ -118,7 +120,7 @@ func start_dash() -> void:
 	if dash_vector == Vector2.ZERO:
 		if sprite.flip_h:
 			dash_vector = Vector2.LEFT
-		else:
+		elif !sprite.flip_h:
 			dash_vector = Vector2.RIGHT
 			
 	dash_timer.start(dash_duration)
