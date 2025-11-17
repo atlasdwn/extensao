@@ -53,7 +53,7 @@ height = 52.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8sqrr"]
 radius = 13.0
-height = 58.0
+height = 52.0
 
 [sub_resource type="Animation" id="Animation_evndh"]
 resource_name = "RESET"
@@ -154,7 +154,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ys5vl"]
 resource_name = "jump"
-length = 0.5
+length = 0.20000334
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -162,7 +162,7 @@ tracks/0/path = NodePath("Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.099999994, 0.13333334, 0.16666669),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("19_dx8gg"), ExtResource("20_qp1es"), ExtResource("21_qk7w8"), ExtResource("22_3t8uj"), ExtResource("23_rjhu2"), ExtResource("24_lit6r")]
@@ -202,7 +202,6 @@ collision_mask = 11
 script = ExtResource("1_6t23p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, -9)
 texture = ExtResource("2_x0jl3")
 
 [node name="hitbox" type="Area2D" parent="Sprite2D"]
@@ -219,13 +218,12 @@ position = Vector2(1, -7)
 shape = SubResource("CapsuleShape2D_eho78")
 
 [node name="hurtbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 16
 collision_mask = 10
 script = ExtResource("10_eho78")
 
 [node name="collision" type="CollisionShape2D" parent="hurtbox"]
-position = Vector2(1, -8)
+position = Vector2(1, -7)
 shape = SubResource("CapsuleShape2D_8sqrr")
 debug_color = Color(1, 0.0111394, 0.0238584, 0.42)
 

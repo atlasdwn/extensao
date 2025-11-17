@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		
 	handle_input(delta)
 	move_and_slide()
-	animate()
+
 	
 ## O NOME JA DIZ HANDLE INPUT, EH PRA LIDAR COM AS ENTRADAS DO JOGADOR
 func handle_input(delta: float) -> void:
@@ -69,6 +69,7 @@ func handle_input(delta: float) -> void:
 	
 	if input_direction != 0:
 		velocity.x = lerp(velocity.x, target_speed, acceleration * delta)
+		animate()
 	else:
 		velocity.x = lerp(velocity.x , 0.0, desaceleration * delta)
 	######
@@ -138,7 +139,9 @@ func start_attack() -> void: ########
 	
 	for area in overlapping_areas:
 		var parent = area.get_owner()
-		print(parent.name)
+		if parent.is_in_group("enemies"):
+			parent.take_damage(12 )
+			print('inimigo tomou')
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name=="attack":

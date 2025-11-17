@@ -683,7 +683,7 @@ height = 58.0
 radius = 9.0
 height = 40.0
 
-[node name="Boss" type="CharacterBody2D"]
+[node name="Boss" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
 collision_mask = 25
 script = ExtResource("1_ihnfr")
@@ -692,6 +692,12 @@ script = ExtResource("1_ihnfr")
 sprite_frames = SubResource("SpriteFrames_f1ys4")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="RayCast2D" type="RayCast2D" parent="AnimatedSprite2D"]
+position = Vector2(-5, 5)
+target_position = Vector2(170, 0)
+collision_mask = 16
+collide_with_areas = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -707,7 +713,7 @@ shape = SubResource("RectangleShape2D_at2eh")
 
 [node name="hitbox" type="Area2D" parent="."]
 collision_layer = 8
-collision_mask = 19
+collision_mask = 3
 script = ExtResource("8_r0sqy")
 
 [node name="collision_1" type="CollisionPolygon2D" parent="hitbox"]
