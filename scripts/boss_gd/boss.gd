@@ -24,14 +24,17 @@ func _ready():
 	right_bounds = self.position + Vector2(-125,0)
 	left_bounds = self.position + Vector2(125,0)
 	
-@export var health:= 200
-func take_damage(damage: int):	
-	health -= damage
-	print("took ",damage)
-	print("vida: ",health)
-	if health <= 0:
-		find_child("FiniteStateMachine").change_state("Death")
-
+@export var health:= 100
+var is_dead = false
+func take_damage(damage: int):
+	if is_dead == false:
+		health -= damage
+		print("took ",damage)
+		print("vida: ",health)
+		if health <= 0:
+			hurtbox.monitorable = false
+			find_child("FiniteStateMachine").change_state("Death")
+			is_dead = true
 var original_collision_offset
 var original_hurtbox_offset
 var original_hitbox_offset

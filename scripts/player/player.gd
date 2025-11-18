@@ -21,6 +21,7 @@ const gravity = 1200.0
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var remote: RemoteTransform2D = $remote
 @onready var hitbox: Area2D = $Sprite2D/hitbox
+@onready var health_bar: ProgressBar = $UI/health_bar
 
 
 ## CONDICOES
@@ -30,12 +31,16 @@ var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
 var health = 50
 
+func _ready() -> void:
+	health_bar.value = health
+
 func follow_camera(camera):
 	var camera_path=camera.get_path()
 	remote.remote_path=camera_path
 	
 func take_damage(damage):
 	health -= damage
+	health_bar.value = health
 			
 ## FUNCAO DA GRAVIDADE, SE NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
 func _physics_process(delta: float) -> void:
