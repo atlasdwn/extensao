@@ -22,6 +22,7 @@ const gravity = 1200.0
 @onready var remote: RemoteTransform2D = $remote
 @onready var hitbox: Area2D = $Sprite2D/hitbox
 @onready var health_bar: ProgressBar = $UI/health_bar
+@onready var hurtbox: Area2D = $hurtbox
 
 
 ## CONDICOES
@@ -29,7 +30,8 @@ var is_attacking: bool = false
 var is_dashing: bool = false
 var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
-var health = 50
+var health = 20
+var is_dead = false
 
 func _ready() -> void:
 	health_bar.value = health
@@ -39,10 +41,17 @@ func follow_camera(camera):
 	remote.remote_path=camera_path
 	
 func take_damage(damage):
-	health -= damage
-	health_bar.value = health
-			
-## FUNCAO DA GRAVIDADE, SE NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
+	if is_dead == false:
+		health -= damage
+		health_bar.value = health
+		if health <= 0:
+			set_physics_process(false)
+			print(health)
+			animation.play("death")
+			print("morreu")
+			hurtbox.monitorable = false
+			is_dead = true
+#NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
 func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:
 		velocity.y += gravity * delta
@@ -51,7 +60,7 @@ func _physics_process(delta: float) -> void:
 	handle_input(delta)
 	move_and_slide()
 	animate()
-	
+
 ## O NOME JA DIZ HANDLE INPUT, EH PRA LIDAR COM AS ENTRADAS DO JOGADOR
 func handle_input(delta: float) -> void:
 	if is_dashing:
@@ -111,6 +120,8 @@ func animate() -> void:
 		if animation.current_animation != "idle":
 			animation.play("idle")
 			
+		
+## FUNCAO DA GRAVIDADE, SE
 
 		
 ## FUNCAO DE DASH

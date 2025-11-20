@@ -15,8 +15,7 @@ func attack(move):
 		if area.name=="hurtbox":
 			var parent = area.get_owner()
 			if parent.name=="player":
-				print(area.name)
-				print(parent.name,move)
+				parent.take_damage(10)
 
 	await animation_player.animation_finished
 
@@ -31,6 +30,8 @@ func combo():
 func transition():
 	if owner.direction.length() > 110:
 		get_parent().change_state("Follow")
+	if player.is_dead == true:
+		get_parent().change_state('Win')
 		
 
 
