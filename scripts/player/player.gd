@@ -132,9 +132,9 @@ func start_dash() -> void:
 	dash_vector = Vector2(x_dir, 0.0).normalized()
 
 	if dash_vector == Vector2.ZERO:
-		if sprite.flip_h:
+		if sprite.scale.x < 0:
 			dash_vector = Vector2.LEFT
-		elif !sprite.flip_h:
+		elif sprite.scale.x > 0:
 			dash_vector = Vector2.RIGHT
 
 	dash_timer.start(dash_duration)
@@ -143,7 +143,6 @@ func start_dash() -> void:
 
 func _on_dash_timer_timeout() -> void:
 	is_dashing = false
-
 	velocity.x = 0.0 ## AQUI DEFINE QUE DEPOIS DO DASH A VELOCIDADE VAI PRA 0
 	## O QUE TIRA AQUELE BUG DE CONTINUAR ANDANDO (ANIMACAO)DEPOIS DO DASH
 
