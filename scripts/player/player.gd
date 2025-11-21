@@ -45,20 +45,21 @@ func take_damage(damage):
 		health -= damage
 		health_bar.value = health
 		if health <= 0:
-			set_physics_process(false)
+
+			is_dead = true
+			velocity.x = 0
 			animation.play("death")
 			hurtbox.set_deferred('monitorable', false)
-			is_dead = true
 #NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
 func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:
 		velocity.y += gravity * delta
 
+	if not is_dead:
+		handle_input(delta)
 
-	handle_input(delta)
 	move_and_slide()
 	animate()
-
 ## O NOME JA DIZ HANDLE INPUT, EH PRA LIDAR COM AS ENTRADAS DO JOGADOR
 func handle_input(delta: float) -> void:
 	if is_dashing:
@@ -92,31 +93,32 @@ func handle_input(delta: float) -> void:
 
 ## FUNCOES DE ANIMACAO
 func animate() -> void:
-	if is_dashing:
-		if animation.current_animation != "dash":
-			animation.play("dash")
-		return
+	if not is_dead:
+		if is_dashing:
+			if animation.current_animation != "dash":
+				animation.play("dash")
+			return
 
-	if is_attacking:
-		if animation.current_animation != "attack":
-			animation.play("attack")
-		return
+		if is_attacking:
+			if animation.current_animation != "attack":
+				animation.play("attack")
+			return
 
-	if not is_on_floor():
-		if velocity.y < 0:
-			if animation.current_animation != "jump":
-				animation.play("jump")
+		if not is_on_floor():
+			if velocity.y < 0:
+				if animation.current_animation != "jump":
+					animation.play("jump")
+			else:
+				if animation.current_animation != "fall":
+					animation.play("fall")
+			return
+			
+		if abs(velocity.x) > 10:
+			if animation.current_animation != "run":
+				animation.play("run")
 		else:
-			if animation.current_animation != "fall":
-				animation.play("fall")
-		return
-
-	if abs(velocity.x) > 10:
-		if animation.current_animation != "run":
-			animation.play("run")
-	else:
-		if animation.current_animation != "idle":
-			animation.play("idle")
+			if animation.current_animation != "idle":
+				animation.play("idle")
 
 
 ## FUNCAO DA GRAVIDADE, SE
@@ -134,7 +136,7 @@ func start_dash() -> void:
 	if dash_vector == Vector2.ZERO:
 		if sprite.scale.x < 0:
 			dash_vector = Vector2.LEFT
-		elif sprite.scale.x > 0:
+		elif !sprite.scale.x > 0:
 			dash_vector = Vector2.RIGHT
 
 	dash_timer.start(dash_duration)
