@@ -165,6 +165,8 @@ func start_attack() -> void: ########
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name=="attack":
 		is_attacking = false
+		
+
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
