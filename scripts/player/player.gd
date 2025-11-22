@@ -30,7 +30,7 @@ var is_attacking: bool = false
 var is_dashing: bool = false
 var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
-var health = 20
+var health = 50
 var is_dead = false
 
 func _ready() -> void:
