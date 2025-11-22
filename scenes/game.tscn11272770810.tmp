@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://cv032pu77qh3"]
+
+[ext_resource type="Script" uid="uid://qbxxkh422du3" path="res://scripts/game.gd" id="1_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://ddix048x6y8aa" path="res://characters/player.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bulafei3g2oq5" path="res://characters/Inimigo/Enemy.tscn" id="5_iywne"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqjtg"]
+size = Vector2(451.054, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnu2h"]
+size = Vector2(200, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lbhrr"]
+size = Vector2(200, 20)
+
+[node name="game" type="Node2D"]
+script = ExtResource("1_lnu2h")
+
+[node name="player" parent="." instance=ExtResource("2_yqjtg")]
+position = Vector2(459, 521)
+collision_mask = 28
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+scale = Vector2(1.04588, 1.55739)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(539.259, 359.576)
+scale = Vector2(2.33773, -0.519358)
+shape = SubResource("RectangleShape2D_yqjtg")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+scale = Vector2(1.04588, 1.55739)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(697.977, 294.724)
+shape = SubResource("RectangleShape2D_lnu2h")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+scale = Vector2(1.04588, 1.55739)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(999.159, 237.577)
+scale = Vector2(2.33773, -0.519358)
+shape = SubResource("RectangleShape2D_lbhrr")
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2(1, 0)
+zoom = Vector2(1.7, 1.7)
+limit_smoothed = true
+
+[node name="Enemy" parent="." instance=ExtResource("5_iywne")]
+position = Vector2(595, 506)

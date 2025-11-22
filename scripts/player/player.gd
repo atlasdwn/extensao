@@ -21,6 +21,8 @@ const gravity = 1200.0
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var remote: RemoteTransform2D = $remote
 @onready var hitbox: Area2D = $Sprite2D/hitbox
+@onready var health_bar: ProgressBar = $UI/health_bar
+@onready var hurtbox: Area2D = $hurtbox
 
 
 ## CONDICOES
@@ -28,45 +30,59 @@ var is_attacking: bool = false
 var is_dashing: bool = false
 var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
+var health = 50
+var is_dead = false
+
+func _ready() -> void:
+	health_bar.value = health
 
 func follow_camera(camera):
 	var camera_path=camera.get_path()
 	remote.remote_path=camera_path
 
-		
-## FUNCAO DA GRAVIDADE, SE NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
+func take_damage(damage):
+	if is_dead == false:
+		health -= damage
+		health_bar.value = health
+		if health <= 0:
+
+			is_dead = true
+			velocity.x = 0
+			animation.play("death")
+			hurtbox.set_deferred('monitorable', false)
+#NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
 func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:
 		velocity.y += gravity * delta
 
-		
-	handle_input(delta)
+	if not is_dead:
+		handle_input(delta)
+
 	move_and_slide()
 	animate()
-	
 ## O NOME JA DIZ HANDLE INPUT, EH PRA LIDAR COM AS ENTRADAS DO JOGADOR
 func handle_input(delta: float) -> void:
 	if is_dashing:
 		velocity = dash_vector * dash_speed
 		return
-		
+
 	if Input.is_action_just_pressed("attack") and not is_attacking:
-		start_attack()	
-		
+		start_attack()
+
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
-		
+
 	var input_direction := Input.get_axis("ui_left", "ui_right")
 	if input_direction:
 		sprite.scale.x = input_direction
-		
+
 	elif input_direction:
 		sprite.scale.x = input_direction
 	#velocity.x = input_direction * speed
-	
+
 	##logica de aceleracao e desaceleracao pra mais fluidez dosmovimentos
 	var target_speed = input_direction * speed
-	
+
 	if input_direction != 0:
 		velocity.x = lerp(velocity.x, target_speed, acceleration * delta)
 	else:
@@ -75,71 +91,85 @@ func handle_input(delta: float) -> void:
 	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing:
 		start_dash()
 
-## FUNCOES DE ANIMACAO	
+## FUNCOES DE ANIMACAO
 func animate() -> void:
-	if is_dashing:
-		if animation.current_animation != "dash":
-			animation.play("dash")
-		return
-		
-	if is_attacking:
-		if animation.current_animation != "attack":
-			animation.play("attack")
-		return	
-		
-	if not is_on_floor():
-		if velocity.y < 0:
-			if animation.current_animation != "jump":
-				animation.play("jump")
-		else:
-			if animation.current_animation != "fall":
-				animation.play("fall")
-		return
-		
-	if abs(velocity.x) > 10:
-		if animation.current_animation != "run":
-			animation.play("run")
-	else:
-		if animation.current_animation != "idle":
-			animation.play("idle")
-			
+	if not is_dead:
+		if is_dashing:
+			if animation.current_animation != "dash":
+				animation.play("dash")
+			return
 
-		
+		if is_attacking:
+			if animation.current_animation != "attack":
+				animation.play("attack")
+			return
+
+		if not is_on_floor():
+			if velocity.y < 0:
+				if animation.current_animation != "jump":
+					animation.play("jump")
+			else:
+				if animation.current_animation != "fall":
+					animation.play("fall")
+			return
+			
+		if abs(velocity.x) > 10:
+			if animation.current_animation != "run":
+				animation.play("run")
+		else:
+			if animation.current_animation != "idle":
+				animation.play("idle")
+
+
+## FUNCAO DA GRAVIDADE, SE
+
+
 ## FUNCAO DE DASH
 func start_dash() -> void:
 	is_dashing = true
 	can_dash = false
-	
+
 	var x_dir := Input.get_axis("ui_left", "ui_right")
-	
+
 	dash_vector = Vector2(x_dir, 0.0).normalized()
-	
+
 	if dash_vector == Vector2.ZERO:
-		if sprite.flip_h:
+		if sprite.scale.x < 0:
 			dash_vector = Vector2.LEFT
-		else:
+		elif !sprite.scale.x > 0:
 			dash_vector = Vector2.RIGHT
-			
+
 	dash_timer.start(dash_duration)
 	dash_cooldown_timer.start()
-	
+
+
 func _on_dash_timer_timeout() -> void:
 	is_dashing = false
 	velocity.x = 0.0 ## AQUI DEFINE QUE DEPOIS DO DASH A VELOCIDADE VAI PRA 0
 	## O QUE TIRA AQUELE BUG DE CONTINUAR ANDANDO (ANIMACAO)DEPOIS DO DASH
-	
+
 func _on_dash_cooldown_timer_timeout() -> void:
 	can_dash = true
-	
+
 func start_attack() -> void: ########
 	is_attacking = true
 	## COMECANDO A LOGICA DE DETECCAO DA HITBOX DE ATAQUE
 	var overlapping_areas = hitbox.get_overlapping_areas()
-	
+
 	for area in overlapping_areas:
 		var parent = area.get_owner()
-		print(parent.name)
+		if parent.is_in_group("enemies"):
+			parent.take_damage(12 )
+			print('inimigo tomou')
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name=="attack":
 		is_attacking = false
+		
+
+
+
+func _on_hurtbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group('enemies') and is_dashing==false:
+		take_damage(5)
+		print('colidiu')
