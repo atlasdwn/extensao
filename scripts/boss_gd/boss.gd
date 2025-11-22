@@ -6,23 +6,16 @@ extends CharacterBody2D
 @onready var hurtbox: Area2D = $hurtbox
 @onready var hurtbox_collision: CollisionShape2D = $hurtbox/collision
 @onready var hitbox: Area2D = $hitbox
-@onready var ray_cast_2d: RayCast2D = $AnimatedSprite2D/RayCast2D
-@export var SPEED: int = 50
-@export var CHASE_SPEED: int = 150
-@export var ACCELERATION: int = 300
 
 var direction : Vector2
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var right_bounds: Vector2
-var left_bounds: Vector2
 
 func _ready():
 	set_physics_process(false)
 	original_collision_offset = collision.position.x
 	original_hurtbox_offset = hurtbox.position.x
 	original_hitbox_offset = hitbox.scale.x
-	right_bounds = self.position + Vector2(-125,0)
-	left_bounds = self.position + Vector2(125,0)
+
 	
 @export var health:= 100
 var is_dead = false
@@ -54,6 +47,8 @@ func _process(_delta):
 		hitbox.scale.x = original_hitbox_offset
 
 func _physics_process(delta: float):
-	velocity = direction.normalized() * 80
+	var horizontal_dir = sign(direction.x)
+	velocity = Vector2(horizontal_dir * 40, 0)
+	move_and_collide(velocity * delta)
 	move_and_collide(velocity * delta)
 	

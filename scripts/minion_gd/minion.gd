@@ -26,3 +26,4 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 	if parent.name =="player":
 		parent.take_damage(5)
 		print('palyer tomou: 5')
+		queue_free()

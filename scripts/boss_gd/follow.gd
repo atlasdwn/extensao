@@ -1,5 +1,6 @@
 extends State
 
+@export var speed: int
 func _enter_tree():
 	randomize()
 
