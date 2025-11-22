@@ -30,7 +30,7 @@ var is_attacking: bool = false
 var is_dashing: bool = false
 var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
-var health = 50
+var health = 20
 var is_dead = false
 
 func _ready() -> void:
@@ -165,6 +165,8 @@ func start_attack() -> void: ########
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name=="attack":
 		is_attacking = false
+		
+
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
