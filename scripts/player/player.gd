@@ -24,7 +24,6 @@ const gravity = 1200.0
 @onready var health_bar: ProgressBar = $UI/health_bar
 @onready var hurtbox: Area2D = $hurtbox
 
-
 ## CONDICOES
 var is_attacking: bool = false
 var is_dashing: bool = false
@@ -32,9 +31,14 @@ var can_dash: bool = true
 var dash_vector: Vector2 = Vector2.ZERO
 var health = 50
 var is_dead = false
+var hitbox_active: bool = false
+var already_hit: bool = false
+var original_hitbox_offset
 
 func _ready() -> void:
 	health_bar.value = health
+	original_hitbox_offset = hitbox.position.x
+
 
 func follow_camera(camera):
 	var camera_path=camera.get_path()
@@ -73,11 +77,14 @@ func handle_input(delta: float) -> void:
 		velocity.y = jump_velocity
 
 	var input_direction := Input.get_axis("ui_left", "ui_right")
-	if input_direction:
-		sprite.scale.x = input_direction
+	if input_direction < 0:
+		sprite.flip_h = true
+		hitbox.position.x = -original_hitbox_offset
+	elif input_direction >0:
+		sprite.flip_h = false
+		hitbox.position.x = original_hitbox_offset
 
-	elif input_direction:
-		sprite.scale.x = input_direction
+
 	#velocity.x = input_direction * speed
 
 	##logica de aceleracao e desaceleracao pra mais fluidez dosmovimentos
@@ -150,26 +157,41 @@ func _on_dash_timer_timeout() -> void:
 
 func _on_dash_cooldown_timer_timeout() -> void:
 	can_dash = true
+	
+func enable_hitbox():
+	hitbox_active = true
+	already_hit = false  # reset hit for each attack
+	hitbox.set_deferred("monitoring", true)
+	hitbox.set_deferred("monitorable", true)
+	hitbox.get_node("collision").set_deferred("disabled", false)
+
+func disable_hitbox():
+	hitbox_active = false
+	hitbox.set_deferred("monitoring", false)
+	hitbox.set_deferred("monitorable", false)
+	hitbox.get_node("collision").set_deferred("disabled", true)
 
 func start_attack() -> void: ########
 	is_attacking = true
-	## COMECANDO A LOGICA DE DETECCAO DA HITBOX DE ATAQUE
-	var overlapping_areas = hitbox.get_overlapping_areas()
-
-	for area in overlapping_areas:
-		var parent = area.get_owner()
-		if parent.is_in_group("enemies"):
-			parent.take_damage(12 )
-			print('inimigo tomou')
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name=="attack":
 		is_attacking = false
 		
 
-
-
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group('enemies') and is_dashing==false:
 		take_damage(5)
 		print('colidiu')
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if not hitbox_active:
+		return  # ignore hits when not on valid attack frames
+
+	if area.name == "hurtbox" and area.get_owner().is_in_group('enemies'):
+		var enemy = area.get_owner()
+		print(enemy)
+		if not already_hit:
+			enemy.take_damage(10)
+			already_hit = true
