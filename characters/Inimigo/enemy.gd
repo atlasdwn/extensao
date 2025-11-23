@@ -14,7 +14,7 @@ const GRAVITY: float = 690.0
 @onready var damage_timer: Timer = $DamageTimer
 
 @export var initial_speed : float = 30.0
-@export var life : int = 4
+@export var life : int = 20
 
 
 var player_is_detected : bool = false
@@ -108,6 +108,5 @@ func morte() -> void:
 	
 
 func _on_attack_colision_body_entered(body: Node2D) -> void:
-	if body.has_method("take_damage"):
-		body.take_damage(20)
-		print("Player tomou hit do inimigo!")
+	if body.is_in_group("player"):
+			body.take_damage(10)

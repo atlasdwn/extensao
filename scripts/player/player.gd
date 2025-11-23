@@ -60,7 +60,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	animate()
-## O NOME JA DIZ HANDLE INPUT, EH PRA LIDAR COM AS ENTRADAS DO JOGADOR
+## LIDA COM AS ENTRADAS DO JOGADOR
 func handle_input(delta: float) -> void:
 	if is_dashing:
 		velocity = dash_vector * dash_speed
