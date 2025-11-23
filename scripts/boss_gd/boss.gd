@@ -17,7 +17,7 @@ func _ready():
 	original_hitbox_offset = hitbox.scale.x
 
 	
-@export var health:= 100
+@export var health:= 1
 var is_dead = false
 func take_damage(damage: int):
 	if is_dead == false:
