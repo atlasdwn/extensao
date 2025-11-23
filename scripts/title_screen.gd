@@ -16,4 +16,5 @@ func _on_quit_btn_pressed() -> void:
 
 
 func _on_start_btn_pressed() -> void:
+	await get_tree().create_timer(0.3).timeout
 	get_tree().change_scene_to_file("res://mundo/Scenes/LevelBase/levelBase.tscn")

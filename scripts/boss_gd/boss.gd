@@ -28,6 +28,12 @@ func take_damage(damage: int):
 			hurtbox.monitorable = false
 			find_child("FiniteStateMachine").change_state("Death")
 			is_dead = true
+			
+			await get_tree().create_timer(1.5).timeout
+			
+			get_tree().change_scene_to_file("res://scenes/win_screen.tscn")
+			
+			
 var original_collision_offset
 var original_hurtbox_offset
 var original_hitbox_offset
