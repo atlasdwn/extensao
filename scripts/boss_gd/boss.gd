@@ -7,9 +7,10 @@ extends CharacterBody2D
 @onready var hurtbox_collision: CollisionShape2D = $hurtbox/collision
 @onready var hitbox: Area2D = $hitbox
 
-var health:= 1
+var health:= 200
 var direction : Vector2
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var is_dead = false
 
 func _ready():
 	set_physics_process(false)
@@ -17,15 +18,12 @@ func _ready():
 	original_hurtbox_offset = hurtbox.position.x
 	original_hitbox_offset = hitbox.position.x
 
-
-	
-
-var is_dead = false
 func take_damage(damage: int):
 	if is_dead == false:
 		health -= damage
 		print("took ",damage)
 		print("vida: ",health)
+		progress_bar.value = health
 		if health <= 0:
 			hurtbox.set_deferred('monitorable',false)
 			find_child("FiniteStateMachine").change_state("Death")

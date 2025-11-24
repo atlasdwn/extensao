@@ -59,5 +59,6 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.name == "hurtbox" and area.get_owner() == player:
 
 			if not already_hit:
-				player.take_damage(10)
+				player.take_damage(10, owner)
+				print(owner)
 				already_hit = true

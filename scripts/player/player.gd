@@ -15,6 +15,7 @@ const gravity = 1200.0
 @export var desaceleration: float = 12.0
 
 ## REFERENCIANDO OS NOS DO LADO
+@onready var knockback_timer: Timer = $KnockbackTimer
 @onready var animation: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var dash_timer: Timer = $DashTimer
@@ -38,31 +39,68 @@ var original_hitbox_offset
 var is_invincible = false
 var inv_tween: Tween = null
 var knockback_force = 100
+var touching_enemy : Node2D = null
+var damage_interval := 0.5
+var damage_timer := 0.0
+
 
 func _ready() -> void:
 	health_bar.value = health
 	original_hitbox_offset = hitbox.position.x
+	
+func _process(delta):
+	if touching_enemy and !is_invincible and !is_dead:
+		damage_timer -= delta
+		if damage_timer <= 0:
+			apply_contact_damage(touching_enemy)
+			damage_timer = damage_interval
 
 
 func follow_camera(camera):
 	var camera_path=camera.get_path()
 	remote.remote_path=camera_path
 
-func take_damage(damage):
+func apply_contact_damage(enemy):
+	take_damage(5, enemy)
+	print('colidiu')
+
+
+func take_damage(damage, attacker):
+	var attacker_pos = attacker.global_position
 	if !is_dead and !is_invincible:
+		# KNOCKBACK
+		var dir := -1.0
+		if attacker_pos != null:
+			dir = sign(global_position.x - attacker_pos.x)
+			if dir == 0:
+				dir = 1
+		apply_knockback(dir)
+		# --------------
+		start_invencibility()
 		health -= damage
 		health_bar.value = health
-		start_invencibility()
-		if health <= 0:
+		print(health)
+	if health <= 0:
 
-			is_dead = true
-			velocity.x = 0
-			animation.play("death")
-			hurtbox.set_deferred('monitorable', false)
+		is_dead = true
+		velocity.x = 0
+		animation.play("death")
+		hurtbox.set_deferred('monitorable', false)
+		
+		await get_tree().create_timer(1.5).timeout
+
+		get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
 			
-			await get_tree().create_timer(1.5).timeout
+func apply_knockback(from_direction: float) -> void:
+	# from_direction: -1 if hit from the left, +1 if hit from the right
+	var strength := 250.0        # knockback force
+	var vertical_boost := -120.0 # optional small hop
 
-			get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
+	velocity.x = strength * from_direction
+	velocity.y = vertical_boost  # optional
+
+	# short time until player regains control
+	knockback_timer.start(0.15)
 			
 func start_invencibility():
 	is_invincible = true
@@ -205,11 +243,15 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group('enemies') and is_dashing==false:
-		take_damage(5)
-		print('colidiu')
-
-
+	if body.is_in_group("enemies"):
+		touching_enemy = body
+		apply_contact_damage(body)  # damage once immediately
+	
+		
+func _on_hurtbox_body_exited(body: Node2D) -> void:
+	if touching_enemy == body:
+		touching_enemy = null
+	
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if not hitbox_active:
 		return  # ignore hits when not on valid attack frames
@@ -231,3 +273,7 @@ func _on_inv_timer_timeout() -> void:
 		
 	sprite.modulate = Color(1,1,1,1)
 	
+
+
+func _on_knockback_timer_timeout() -> void:
+	velocity.x = 0
