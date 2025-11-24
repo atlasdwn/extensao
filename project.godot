@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="jogo-extensao"
+run/main_scene="uid://btw0vm3mkmaag"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [dotnet]
 

@@ -54,6 +54,10 @@ func take_damage(damage):
 			velocity.x = 0
 			animation.play("death")
 			hurtbox.set_deferred('monitorable', false)
+			
+			await get_tree().create_timer(1.5).timeout
+
+			get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
 #NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
 func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:

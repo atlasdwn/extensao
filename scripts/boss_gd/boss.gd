@@ -7,7 +7,7 @@ extends CharacterBody2D
 @onready var hurtbox_collision: CollisionShape2D = $hurtbox/collision
 @onready var hitbox: Area2D = $hitbox
 
-var health:= 100
+var health:= 1
 var direction : Vector2
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
