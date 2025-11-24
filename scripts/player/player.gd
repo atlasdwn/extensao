@@ -23,6 +23,7 @@ const gravity = 1200.0
 @onready var hitbox: Area2D = $Sprite2D/hitbox
 @onready var health_bar: ProgressBar = $UI/health_bar
 @onready var hurtbox: Area2D = $hurtbox
+@onready var inv_timer: Timer = $InvTimer
 
 ## CONDICOES
 var is_attacking: bool = false
@@ -34,6 +35,9 @@ var is_dead = false
 var hitbox_active: bool = false
 var already_hit: bool = false
 var original_hitbox_offset
+var is_invincible = false
+var inv_tween: Tween = null
+var knockback_force = 100
 
 func _ready() -> void:
 	health_bar.value = health
@@ -45,9 +49,10 @@ func follow_camera(camera):
 	remote.remote_path=camera_path
 
 func take_damage(damage):
-	if is_dead == false:
+	if !is_dead and !is_invincible:
 		health -= damage
 		health_bar.value = health
+		start_invencibility()
 		if health <= 0:
 
 			is_dead = true
@@ -58,6 +63,22 @@ func take_damage(damage):
 			await get_tree().create_timer(1.5).timeout
 
 			get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
+			
+func start_invencibility():
+	is_invincible = true
+	inv_timer.start()
+	
+	if inv_tween:
+		inv_tween.kill()
+		
+	inv_tween = create_tween()
+	inv_tween.tween_property(sprite, 'modulate', Color(1,0.3,0.3,1),0.1)
+	inv_tween.tween_property(sprite, 'modulate', Color(1,1,1,1),0.1)
+	var loop_tween = inv_tween.parallel().set_loops()
+	
+	loop_tween.tween_property(sprite, 'modulate:a', 0.2, 0.1)
+	loop_tween.tween_property(sprite, 'modulate:a', 0.1, 0.1)
+
 #NAO TA DASHANDO E NAO TA NO CHAO, TA "CAINDO"
 func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:
@@ -145,9 +166,9 @@ func start_dash() -> void:
 	dash_vector = Vector2(x_dir, 0.0).normalized()
 
 	if dash_vector == Vector2.ZERO:
-		if sprite.scale.x < 0:
+		if sprite.flip_h == true:
 			dash_vector = Vector2.LEFT
-		elif !sprite.scale.x > 0:
+		elif sprite.flip_h == false:
 			dash_vector = Vector2.RIGHT
 
 	dash_timer.start(dash_duration)
@@ -199,3 +220,14 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if not already_hit:
 			enemy.take_damage(10)
 			already_hit = true
+
+
+func _on_inv_timer_timeout() -> void:
+	is_invincible = false
+
+	if inv_tween:
+		inv_tween.kill()
+		inv_tween = null
+		
+	sprite.modulate = Color(1,1,1,1)
+	
