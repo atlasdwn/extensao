@@ -40,7 +40,7 @@ func combo():
 
 		
 func transition():
-	if owner.direction.length() > 110:
+	if owner.direction.length() > 140:
 		get_parent().change_state("Follow")
 	if player.is_dead == true:
 		get_parent().change_state('Win')

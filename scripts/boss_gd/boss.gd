@@ -15,7 +15,8 @@ func _ready():
 	set_physics_process(false)
 	original_collision_offset = collision.position.x
 	original_hurtbox_offset = hurtbox.position.x
-	original_hitbox_offset = hitbox.scale.x
+	original_hitbox_offset = hitbox.position.x
+
 
 	
 
@@ -37,18 +38,21 @@ func _process(_delta):
 	direction = player.position - position
 
 	if direction.x < 0:
-		animated_sprite.flip_h = true
-		collision.position.x = -original_collision_offset
-		hurtbox.position.x = -original_hurtbox_offset
-		hitbox.scale.x = -original_hitbox_offset
-	else:
 		animated_sprite.flip_h = false
 		collision.position.x = original_hurtbox_offset
 		hurtbox.position.x = original_hurtbox_offset
-		hitbox.scale.x = original_hitbox_offset
+		hitbox.position.x = original_hitbox_offset
 
-func _physics_process(delta: float):
-	var horizontal_dir = sign(direction.x)
-	velocity = Vector2(horizontal_dir * 40, 0)
-	move_and_collide(velocity * delta)
+	else:
+		animated_sprite.flip_h = true
+
+		collision.position.x = -original_collision_offset
+		hurtbox.position.x = -original_hurtbox_offset
+		hitbox.position.x = -original_hitbox_offset
+	
+func _physics_process(_delta: float):
+	if player.is_dead == false:
+		var horizontal_dir = sign(direction.x)
+		velocity = Vector2(horizontal_dir * 40, 0)
+		move_and_slide()
 	

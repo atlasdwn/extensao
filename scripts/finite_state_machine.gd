@@ -14,3 +14,5 @@ func change_state(state):
  
 	previous_state.exit()
 	previous_state = current_state
+	print(current_state)
+	

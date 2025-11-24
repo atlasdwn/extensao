@@ -9,9 +9,14 @@ func enter():
 	can_transition = true
 	
 func teleport():
-	owner.position = player.position + Vector2.RIGHT * 40
+	var new_x = player.position.x + 40
+	var current_y = owner.position.y
+	owner.position = Vector2(new_x, current_y)
 	
 func transition():
 	if can_transition:
-		get_parent().change_state("Attack")
 		can_transition = false
+		if owner.direction.length() <= 120:
+			get_parent().change_state("Attack")
+		elif owner.direction.length() > 120:
+			get_parent().change_state("Follow")
