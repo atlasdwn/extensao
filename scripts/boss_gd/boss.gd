@@ -7,7 +7,7 @@ extends CharacterBody2D
 @onready var hurtbox_collision: CollisionShape2D = $hurtbox/collision
 @onready var hitbox: Area2D = $hitbox
 
-var health:= 10
+var health:= 100
 var direction : Vector2
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -53,6 +53,6 @@ func _process(_delta):
 func _physics_process(_delta: float):
 	if player.is_dead == false:
 		var horizontal_dir = sign(direction.x)
-		velocity = Vector2(horizontal_dir * 40, 0)
+		velocity = Vector2(horizontal_dir * 190, 0)
 		move_and_slide()
 	
